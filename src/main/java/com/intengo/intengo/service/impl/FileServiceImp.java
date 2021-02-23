@@ -2,9 +2,11 @@ package com.intengo.intengo.service.impl;
 
 import com.intengo.intengo.domain.FileEntity;
 import com.intengo.intengo.exception.RequestException;
+import com.intengo.intengo.message.ApiResponse;
 import com.intengo.intengo.repository.FileRepository;
 import com.intengo.intengo.service.FileService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -15,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -66,4 +69,25 @@ public class FileServiceImp implements FileService {
 
 
     }
+
+    @Override
+    public ApiResponse getFileByName(String name) {
+        Optional<FileEntity> file = fileRepository.findByFileName(name);
+
+
+        return file.map(fileEntity -> new ApiResponse(HttpStatus.OK, "Success", fileEntity))
+                .orElseGet(() -> new ApiResponse(HttpStatus.BAD_REQUEST, "Data not found"));
+
+
+    }
+
+    @Override
+    public ApiResponse getContentByName(String name) {
+        Optional<FileEntity> file = fileRepository.findByFileName(name);
+
+
+        return file.map(fileEntity -> new ApiResponse(HttpStatus.OK, "Success", fileEntity.getData()))
+                .orElseGet(() -> new ApiResponse(HttpStatus.BAD_REQUEST, "Data not found"));
+    }
+
 }
