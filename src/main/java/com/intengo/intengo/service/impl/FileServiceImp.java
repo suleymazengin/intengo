@@ -29,7 +29,7 @@ public class FileServiceImp implements FileService {
 
     @Transactional
     @Override
-    public FileEntity saveFile(MultipartFile file) {
+    public void saveFile(MultipartFile file) {
 
         try {
 
@@ -65,6 +65,5 @@ public class FileServiceImp implements FileService {
         }
 
 
-        return null;
     }
 }

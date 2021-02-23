@@ -9,5 +9,5 @@ import java.io.IOException;
 @Service
 public interface FileService {
 
-    FileEntity saveFile(MultipartFile file) throws IOException;
+    void saveFile(MultipartFile file) throws IOException;
 }
