@@ -1,6 +1,5 @@
 package com.intengo.intengo.service;
 
-import com.intengo.intengo.domain.FileEntity;
 import com.intengo.intengo.message.ApiResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

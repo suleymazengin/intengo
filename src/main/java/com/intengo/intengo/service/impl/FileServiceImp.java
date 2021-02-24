@@ -37,7 +37,7 @@ public class FileServiceImp implements FileService {
         try {
 
 
-            fileRepository.findByFileName(file.getOriginalFilename()).ifPresent(fileEntity -> {
+            fileRepository.findByFileNameAndActiveIsTrue(file.getOriginalFilename()).ifPresent(fileEntity -> {
 
 
                 throw new RequestException("There is a file with the same name");
@@ -57,6 +57,7 @@ public class FileServiceImp implements FileService {
             fileEntity.setFileName(file.getOriginalFilename());
             fileEntity.setType(file.getContentType());
             fileEntity.setPath(path);
+            fileEntity.setActive(true);
             fileRepository.save(fileEntity);
 
         } catch (Exception e) {
@@ -72,7 +73,7 @@ public class FileServiceImp implements FileService {
 
     @Override
     public ApiResponse getFileByName(String name) {
-        Optional<FileEntity> file = fileRepository.findByFileName(name);
+        Optional<FileEntity> file = fileRepository.findByFileNameAndActiveIsTrue(name);
 
 
         return file.map(fileEntity -> new ApiResponse(HttpStatus.OK, "Success", fileEntity))
@@ -83,7 +84,7 @@ public class FileServiceImp implements FileService {
 
     @Override
     public ApiResponse getContentByName(String name) {
-        Optional<FileEntity> file = fileRepository.findByFileName(name);
+        Optional<FileEntity> file = fileRepository.findByFileNameAndActiveIsTrue(name);
 
 
         return file.map(fileEntity -> new ApiResponse(HttpStatus.OK, "Success", fileEntity.getData()))

@@ -7,6 +7,7 @@ import com.intengo.intengo.utilty.Utility;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +25,7 @@ public class FileController {
     }
 
     @PostMapping("/upload")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseMessage> handleFileUpload(@RequestParam("file") MultipartFile file) {
         List<String> contentTypes = Utility.contentTypes;
         String message = "";
