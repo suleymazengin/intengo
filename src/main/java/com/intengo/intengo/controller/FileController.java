@@ -15,7 +15,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/file")
 @Slf4j
 public class FileController {
     private final FileService fileService;
@@ -48,18 +48,29 @@ public class FileController {
 
     }
 
-    @GetMapping("/file/{name}")
+    @GetMapping("/{name}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse getFileByName(@PathVariable("name") String name) {
 
         return fileService.getFileByName(name);
 
     }
 
-    @GetMapping("/file/content/{name}")
+    @GetMapping("/content/{name}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse getFileContentByName(@PathVariable("name") String name) {
 
         return fileService.getContentByName(name);
 
     }
+
+    @DeleteMapping("/delete/{name}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ApiResponse deletUser(@PathVariable("name") String name) {
+
+        return fileService.deleteUserByName(name);
+
+    }
+
 
 }

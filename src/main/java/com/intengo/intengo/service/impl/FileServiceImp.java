@@ -91,4 +91,24 @@ public class FileServiceImp implements FileService {
                 .orElseGet(() -> new ApiResponse(HttpStatus.BAD_REQUEST, "Data not found"));
     }
 
+    @Override
+    public ApiResponse deleteUserByName(String name) {
+        Optional<FileEntity> file = fileRepository.findByFileNameAndActiveIsTrue(name);
+
+        if (file.isPresent()) {
+
+            file.get().setActive(false);
+            FileEntity save = fileRepository.save(file.get());
+
+            return new ApiResponse(HttpStatus.ACCEPTED, save.getFileName() + " was deleted");
+
+        } else {
+
+            return new ApiResponse(HttpStatus.NO_CONTENT, "No content for " + name);
+
+        }
+
+
+    }
+
 }

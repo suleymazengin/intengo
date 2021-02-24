@@ -14,4 +14,6 @@ public interface FileService {
     ApiResponse getFileByName(String name);
 
     ApiResponse getContentByName(String name);
+
+    ApiResponse deleteUserByName(String name);
 }
